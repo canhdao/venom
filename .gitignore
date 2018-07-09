@@ -1,5 +1,4 @@
-build/
-library/
-local/
-temp/
+Build/
+Library/
+Temp/
 .DS_Store
