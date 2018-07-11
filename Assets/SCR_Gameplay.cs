@@ -26,6 +26,17 @@ public class SCR_Gameplay : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetMouseButtonDown(0)) {
+			Vector3 pos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
+			pos = Camera.main.ScreenToWorldPoint(pos);
+
+			venom.GetComponent<SCR_Venom>().Attack(pos.x, pos.y);
+		}
+
+		if (Input.GetMouseButtonUp(0)) {
+			venom.GetComponent<SCR_Venom>().AttackComplete();
+		}
+
+		if (Input.GetMouseButtonDown(1)) {
 			venom.GetComponent<Animator>().SetTrigger("ultimate");
 		}
 
