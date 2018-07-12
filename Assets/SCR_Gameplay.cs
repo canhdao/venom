@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SCR_Gameplay : MonoBehaviour {
-	public GameObject PFB_SOLDIER;
+	public GameObject[] PFB_ENEMY;
 
 	public GameObject venom;
 
@@ -26,10 +26,18 @@ public class SCR_Gameplay : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetMouseButtonDown(0)) {
-			Vector3 pos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
-			pos = Camera.main.ScreenToWorldPoint(pos);
+			Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
 			venom.GetComponent<SCR_Venom>().Attack(pos.x, pos.y);
+
+			RaycastHit2D[] hits = Physics2D.RaycastAll(pos, Vector2.zero);
+ 			
+	        foreach (RaycastHit2D hit in hits) {
+	            SCR_Soldier scrSoldier = hit.collider.GetComponent<SCR_Soldier>();
+	            if (scrSoldier != null) {
+	            	scrSoldier.Die();
+	            }
+	        }
 		}
 
 		if (Input.GetMouseButtonUp(0)) {
@@ -42,7 +50,7 @@ public class SCR_Gameplay : MonoBehaviour {
 
 		spawnTime -= Time.deltaTime;
 		if (spawnTime <= 0) {
-			GameObject soldier = Instantiate(PFB_SOLDIER);
+			GameObject soldier = Instantiate(PFB_ENEMY[Random.Range(0, PFB_ENEMY.Length)]);
 			soldier.transform.position = new Vector3(Random.Range(-screenWidth * 0.5f, screenWidth * 0.5f), screenHeight * 0.5f, soldier.transform.position.z);
 			spawnTime = Random.Range(SPAWN_TIME_MIN, SPAWN_TIME_MAX);
 		}

@@ -511,6 +511,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b73bf46d68cbf4d349da262b0baf9ae1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PFB_SOLDIER: {fileID: 1991567689738328, guid: 17a59cb8e03a64df390102cd957f6580,
-    type: 2}
+  PFB_ENEMY:
+  - {fileID: 1991567689738328, guid: 17a59cb8e03a64df390102cd957f6580, type: 2}
+  - {fileID: 1991567689738328, guid: e4398a98761af40fb9e26991815aab81, type: 2}
+  - {fileID: 1991567689738328, guid: a29212df16a6d40d3b0bd23b6e08a637, type: 2}
   venom: {fileID: 279782466}

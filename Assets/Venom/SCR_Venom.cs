@@ -8,6 +8,8 @@ public class SCR_Venom : MonoBehaviour {
 	public GameObject arm;
 	public GameObject hand;
 
+	private Animator animator;
+
 	private const float BREAK_OFFSET_X = 0.25f;
 	private const float BREAK_OFFSET_Y = 2.75f;
 
@@ -19,6 +21,8 @@ public class SCR_Venom : MonoBehaviour {
 		arm.SetActive(false);
 		originalVector = new Vector2(hand.transform.position.x - arm.transform.position.x, hand.transform.position.y - arm.transform.position.y);
 		originalScale = arm.transform.localScale;
+
+		animator = GetComponent<Animator>();
 	}
 	
 	// Update is called once per frame
@@ -42,9 +46,13 @@ public class SCR_Venom : MonoBehaviour {
 			originalScale.z);
 
 		arm.SetActive(true);
+
+		animator.SetTrigger("attack");
 	}
 
 	public void AttackComplete() {
 		arm.SetActive(false);
+
+		animator.SetTrigger("idle");
 	}
 }
