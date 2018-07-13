@@ -5,7 +5,8 @@ using UnityEngine;
 public class SCR_Venom : MonoBehaviour {
 	public GameObject PFB_BREAK;
 
-	public GameObject arm;
+	public GameObject upperArm;
+	public GameObject forearm;
 	public GameObject hand;
 
 	private Animator animator;
@@ -18,9 +19,10 @@ public class SCR_Venom : MonoBehaviour {
 
 	// Use this for initialization
 	void Start() {
-		arm.SetActive(false);
-		originalVector = new Vector2(hand.transform.position.x - arm.transform.position.x, hand.transform.position.y - arm.transform.position.y);
-		originalScale = arm.transform.localScale;
+		upperArm.SetActive(false);
+		forearm.SetActive(false);
+		originalVector = new Vector2(hand.transform.position.x - forearm.transform.position.x, hand.transform.position.y - forearm.transform.position.y);
+		originalScale = forearm.transform.localScale;
 
 		animator = GetComponent<Animator>();
 	}
@@ -35,23 +37,27 @@ public class SCR_Venom : MonoBehaviour {
 	}
 
 	public void Attack(float x, float y) {
-		Vector2 targetVector = new Vector2(x - arm.transform.position.x, y - arm.transform.position.y);
+		Vector2 targetVector = new Vector2(x - forearm.transform.position.x, y - forearm.transform.position.y);
 
 		float angle = Vector2.SignedAngle(originalVector, targetVector);
-		arm.transform.localEulerAngles = new Vector3(0, 0, angle);
+		forearm.transform.localEulerAngles = new Vector3(0, 0, angle);
 
-		arm.transform.localScale = new Vector3(
+		forearm.transform.localScale = new Vector3(
 			originalScale.x,
 			Mathf.Sqrt(targetVector.sqrMagnitude / originalVector.sqrMagnitude) * originalScale.y,
 			originalScale.z);
 
-		arm.SetActive(true);
+		forearm.SetActive(true);
 
 		animator.SetTrigger("attack");
+
+		upperArm.transform.localEulerAngles = forearm.transform.localEulerAngles;
+		upperArm.SetActive(true);
 	}
 
 	public void AttackComplete() {
-		arm.SetActive(false);
+		forearm.SetActive(false);
+		upperArm.SetActive(false);
 
 		animator.SetTrigger("idle");
 	}
