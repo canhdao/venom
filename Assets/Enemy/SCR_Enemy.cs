@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum SoldierState {
+public enum EnemyState {
 	RUN,
 	DIE
 }
@@ -12,24 +12,24 @@ public enum MoveType {
 	DIAGONAL
 }
 */
-public class SCR_Soldier : MonoBehaviour {
-	private const float	STRAIGHT_SPEED		= 3;
-	private const float DIAGONAL_SPEED_X	= 3f;
-	private const float DIAGONAL_SPEED_Y	= 5; 
-	private const float	DIAGONAL_RATE		= 0.5f;
+public class SCR_Enemy : MonoBehaviour {
+	public const float STRAIGHT_SPEED	= 3;
+	public const float DIAGONAL_SPEED_X	= 3;
+	public const float DIAGONAL_SPEED_Y	= 5; 
+	public const float DIAGONAL_RATE		= 0.5f;
 
 	private SpriteRenderer spriteRenderer;
 	private Animator animator;
 
-	private SoldierState state = SoldierState.RUN;
+	public EnemyState state = EnemyState.RUN;
 
 	//private MoveType moveType = MoveType.STRAIGHT;
 
-	private float speedX;
-	private float speedY;
+	public float speedX;
+	public float speedY;
 
 	// Use this for initialization
-	void Start () {
+	public virtual void Awake() {
 		spriteRenderer = GetComponent<SpriteRenderer>();
 		animator = GetComponent<Animator>();
 
@@ -53,8 +53,8 @@ public class SCR_Soldier : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		if (state == SoldierState.RUN) {
+	public virtual void Update() {
+		if (state == EnemyState.RUN) {
 			float newX = transform.position.x + speedX * Time.deltaTime;
 			float newY = transform.position.y - speedY * Time.deltaTime;
 			transform.position = new Vector3(newX, newY, transform.position.z);
@@ -74,14 +74,14 @@ public class SCR_Soldier : MonoBehaviour {
 		}
 	}
 
-	public void Die() {
+	public virtual void Die() {
 		animator.SetTrigger("die");
 		spriteRenderer.sortingOrder = 1;
 		iTween.FadeTo(gameObject, iTween.Hash("alpha", 0, "time", 0.5f, "delay", 1f, "oncomplete", "AutoDestroy"));
-		state = SoldierState.DIE;
+		state = EnemyState.DIE;
 	}
 
-	private void AutoDestroy() {
+	public virtual void AutoDestroy() {
 		Destroy(gameObject);
 	}
 }

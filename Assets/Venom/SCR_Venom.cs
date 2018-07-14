@@ -17,6 +17,8 @@ public class SCR_Venom : MonoBehaviour {
 	private Vector2 originalVector;
 	private Vector3 originalScale;
 
+	private float attackTime;
+
 	// Use this for initialization
 	void Start() {
 		upperArm.SetActive(false);
@@ -25,10 +27,19 @@ public class SCR_Venom : MonoBehaviour {
 		originalScale = forearm.transform.localScale;
 
 		animator = GetComponent<Animator>();
+
+		attackTime = -1;
 	}
 	
 	// Update is called once per frame
 	void Update() {
+		if (attackTime >= 0) {
+			attackTime += Time.deltaTime;
+			if (attackTime >= 0.3f) {
+				AttackComplete();
+				attackTime = -1;
+			}
+		}
 	}
 
 	public void OnCompleteAnimationUltimate() {
@@ -36,7 +47,16 @@ public class SCR_Venom : MonoBehaviour {
 		effect.transform.position = new Vector3(transform.position.x + BREAK_OFFSET_X, transform.position.y + BREAK_OFFSET_Y, transform.position.z);
 	}
 
+	public void OnStartAttackLoop() {
+		upperArm.SetActive(true);
+		forearm.SetActive(true);
+
+		attackTime = 0;
+	}
+
 	public void Attack(float x, float y) {
+		animator.SetTrigger("attack");
+
 		Vector2 targetVector = new Vector2(x - forearm.transform.position.x, y - forearm.transform.position.y);
 
 		float angle = Vector2.SignedAngle(originalVector, targetVector);
@@ -47,12 +67,7 @@ public class SCR_Venom : MonoBehaviour {
 			Mathf.Sqrt(targetVector.sqrMagnitude / originalVector.sqrMagnitude) * originalScale.y,
 			originalScale.z);
 
-		forearm.SetActive(true);
-
-		animator.SetTrigger("attack");
-
 		upperArm.transform.localEulerAngles = forearm.transform.localEulerAngles;
-		upperArm.SetActive(true);
 	}
 
 	public void AttackComplete() {

@@ -33,16 +33,18 @@ public class SCR_Gameplay : MonoBehaviour {
 			RaycastHit2D[] hits = Physics2D.RaycastAll(pos, Vector2.zero);
  			
 	        foreach (RaycastHit2D hit in hits) {
-	            SCR_Soldier scrSoldier = hit.collider.GetComponent<SCR_Soldier>();
-	            if (scrSoldier != null) {
-	            	scrSoldier.Die();
+	            SCR_Enemy scrEnemy = hit.collider.GetComponent<SCR_Enemy>();
+	            if (scrEnemy != null) {
+	            	if (scrEnemy.state == EnemyState.RUN) {
+	            		scrEnemy.Die();
+	            	}
 	            }
 	        }
 		}
 
-		if (Input.GetMouseButtonUp(0)) {
-			venom.GetComponent<SCR_Venom>().AttackComplete();
-		}
+		//if (Input.GetMouseButtonUp(0)) {
+		//	venom.GetComponent<SCR_Venom>().AttackComplete();
+		//}
 
 		if (Input.GetMouseButtonDown(1)) {
 			venom.GetComponent<Animator>().SetTrigger("ultimate");
@@ -50,8 +52,8 @@ public class SCR_Gameplay : MonoBehaviour {
 
 		spawnTime -= Time.deltaTime;
 		if (spawnTime <= 0) {
-			GameObject soldier = Instantiate(PFB_ENEMY[Random.Range(0, PFB_ENEMY.Length)]);
-			soldier.transform.position = new Vector3(Random.Range(-screenWidth * 0.5f, screenWidth * 0.5f), screenHeight * 0.5f, soldier.transform.position.z);
+			GameObject enemy = Instantiate(PFB_ENEMY[Random.Range(0, PFB_ENEMY.Length)]);
+			enemy.transform.position = new Vector3(Random.Range(-screenWidth * 0.5f, screenWidth * 0.5f), screenHeight * 0.5f, enemy.transform.position.z);
 			spawnTime = Random.Range(SPAWN_TIME_MIN, SPAWN_TIME_MAX);
 		}
 	}
