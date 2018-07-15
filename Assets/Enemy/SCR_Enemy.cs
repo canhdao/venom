@@ -54,22 +54,25 @@ public class SCR_Enemy : MonoBehaviour {
 	
 	// Update is called once per frame
 	public virtual void Update() {
-		if (state == EnemyState.RUN) {
-			float newX = transform.position.x + speedX * Time.deltaTime;
-			float newY = transform.position.y - speedY * Time.deltaTime;
-			transform.position = new Vector3(newX, newY, transform.position.z);
+		if (SCR_Gameplay.instance.state == GameState.PLAY) {
+			if (state == EnemyState.RUN) {
+				float newX = transform.position.x + speedX * Time.deltaTime;
+				float newY = transform.position.y - speedY * Time.deltaTime;
+				transform.position = new Vector3(newX, newY, transform.position.z);
 
-			if (newX > SCR_Gameplay.screenWidth * 0.5f) {
-				speedX = -Mathf.Abs(speedX);
-			}
+				if (newX > SCR_Gameplay.screenWidth * 0.5f) {
+					speedX = -Mathf.Abs(speedX);
+				}
 
-			if (newX < -SCR_Gameplay.screenWidth * 0.5f) {
-				speedX = Mathf.Abs(speedX);
-			}
+				if (newX < -SCR_Gameplay.screenWidth * 0.5f) {
+					speedX = Mathf.Abs(speedX);
+				}
 
-			spriteRenderer.sortingOrder = (int)(SCR_Gameplay.screenHeight * 0.5f - transform.position.y) + 2;
-			if (transform.position.y < -SCR_Gameplay.screenHeight * 0.5f) {
-				Destroy(gameObject);
+				spriteRenderer.sortingOrder = (int)(SCR_Gameplay.screenHeight * 0.5f - transform.position.y) + 2;
+				if (transform.position.y < -SCR_Gameplay.screenHeight * 0.5f) {
+					//Destroy(gameObject);
+					SCR_Gameplay.instance.GameOver();
+				}
 			}
 		}
 	}
