@@ -38,10 +38,6 @@ AnimationClip:
       value: {fileID: 21300000, guid: 56212bdc9312c44ba9d5bdc70f870511, type: 3}
     - time: 0.75
       value: {fileID: 21300000, guid: 326375c8ed7f94fd4a761b7ff01983dd, type: 3}
-    - time: 0.8333333
-      value: {fileID: 21300000, guid: e4ce7bcdf4e7a4bdfaab03c50eede09a, type: 3}
-    - time: 0.9166667
-      value: {fileID: 21300000, guid: afa77a0ddb9e3478aa506f071eb84203, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -71,14 +67,12 @@ AnimationClip:
     - {fileID: 21300000, guid: 5d3e2af1b96714d8da1387ffa68a179b, type: 3}
     - {fileID: 21300000, guid: 56212bdc9312c44ba9d5bdc70f870511, type: 3}
     - {fileID: 21300000, guid: 326375c8ed7f94fd4a761b7ff01983dd, type: 3}
-    - {fileID: 21300000, guid: e4ce7bcdf4e7a4bdfaab03c50eede09a, type: 3}
-    - {fileID: 21300000, guid: afa77a0ddb9e3478aa506f071eb84203, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 1
+    m_StopTime: 0.8333333
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -99,7 +93,7 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_GenerateMotionCurves: 0
   m_Events:
-  - time: 0.75
+  - time: 0.5833333
     functionName: OnCompleteAnimationUltimate
     data: 
     objectReferenceParameter: {fileID: 0}

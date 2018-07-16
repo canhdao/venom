@@ -34,6 +34,8 @@ public class SCR_Gameplay : MonoBehaviour {
 
 	// Use this for initialization
 	void Start() {
+		Application.targetFrameRate = 60;
+		
 		screenHeight = 19.2f;
 		screenWidth = screenHeight * Screen.width / Screen.height;
 

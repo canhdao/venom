@@ -21,8 +21,8 @@ GameObject:
   - component: {fileID: 4915891490751786}
   - component: {fileID: 212198394559097008}
   - component: {fileID: 95201597748800110}
-  - component: {fileID: 58421380679768728}
   - component: {fileID: 114296622060295836}
+  - component: {fileID: 61076167211786810}
   m_Layer: 0
   m_Name: PFB_Truck
   m_TagString: Untagged
@@ -38,13 +38,13 @@ Transform:
   m_GameObject: {fileID: 1991567689738328}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
+  m_LocalScale: {x: 0.75, y: 0.75, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!58 &58421380679768728
-CircleCollider2D:
+--- !u!61 &61076167211786810
+BoxCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -55,9 +55,19 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.45, y: 0.1}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 7.44, y: 10.53}
+    newSize: {x: 20.789999, y: 21.939999}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   serializedVersion: 2
-  m_Radius: 7
+  m_Size: {x: 4.56, y: 9.66}
+  m_EdgeRadius: 0
 --- !u!95 &95201597748800110
 Animator:
   serializedVersion: 3
@@ -87,7 +97,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4228ebe51c124eea9ac29e15178017d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PFB_DOG: {fileID: 1991567689738328, guid: 8ab8d83b40d2b4877a282b8713e0697e, type: 2}
+  state: 0
+  speedX: 0
+  speedY: 0
 --- !u!212 &212198394559097008
 SpriteRenderer:
   m_ObjectHideFlags: 1
