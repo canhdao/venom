@@ -20,11 +20,11 @@ GameObject:
   m_Component:
   - component: {fileID: 4915891490751786}
   - component: {fileID: 212198394559097008}
-  - component: {fileID: 114297701529562042}
   - component: {fileID: 95201597748800110}
   - component: {fileID: 58421380679768728}
+  - component: {fileID: 114221433690222324}
   m_Layer: 0
-  m_Name: PFB_Dog
+  m_Name: PFB_DogSoldier
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -38,7 +38,7 @@ Transform:
   m_GameObject: {fileID: 1991567689738328}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
+  m_LocalScale: {x: 0.15, y: 0.15, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -67,7 +67,7 @@ Animator:
   m_GameObject: {fileID: 1991567689738328}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 1100b97347b0e489eaa35743ec67a3cf, type: 2}
+  m_Controller: {fileID: 9100000, guid: 71686b63e1f906e43b8d18bcdaf6e7cd, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -76,7 +76,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &114297701529562042
+--- !u!114 &114221433690222324
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -84,7 +84,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1991567689738328}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b772f186502fe45ca9260a6fac912566, type: 3}
+  m_Script: {fileID: 11500000, guid: 781abc20717aa2a468c48cdeeb5ffa1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
@@ -125,7 +125,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: 7b78b1dbee31643bcbe0d70cf37f68ef, type: 3}
+  m_Sprite: {fileID: 21300000, guid: dcc604d468bbc564ab43128103cc6b2b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

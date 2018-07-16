@@ -11,6 +11,7 @@ public enum GameState {
 
 public class SCR_Gameplay : MonoBehaviour {
 	public GameObject[] PFB_ENEMY;
+	public GameObject PFB_DOG;
 
 	public GameObject venom;
 	public GameObject txtScore;
