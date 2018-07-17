@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using GoogleMobileAds.Api;
 
 public enum GameState {
 	PLAY,
@@ -32,6 +33,11 @@ public class SCR_Gameplay : MonoBehaviour {
 	private int score;
 	private int best;
 
+	private InterstitialAd interstitial;
+
+	private const float TIME_SHOW_ADS = 30;
+	private static float timeShowAds = 0;
+
 	// Use this for initialization
 	void Start() {
 		Application.targetFrameRate = 60;
@@ -48,10 +54,51 @@ public class SCR_Gameplay : MonoBehaviour {
 		state = GameState.PLAY;
 
 		instance = this;
+
+		#if UNITY_ANDROID
+			string appId = "ca-app-pub-0081066185741622~1212788759";
+		#elif UNITY_IPHONE
+			string appId = "ca-app-pub-0081066185741622~2263405726";
+		#else
+			string appId = "unexpected_platform";
+		#endif
+
+		// Initialize the Google Mobile Ads SDK.
+		MobileAds.Initialize(appId);
+
+		RequestInterstitial();
 	}
 	
+	private void RequestInterstitial()
+	{
+		#if UNITY_ANDROID
+			string adUnitId = "ca-app-pub-0081066185741622/3435202389";
+		#elif UNITY_IPHONE
+			string adUnitId = "ca-app-pub-0081066185741622/4481949928";
+		#else
+			string adUnitId = "unexpected_platform";
+		#endif
+
+		// Initialize an InterstitialAd.
+		interstitial = new InterstitialAd(adUnitId);
+
+		// Create an empty ad request.
+		AdRequest request = new AdRequest.Builder().AddTestDevice("f76690eb0615cccc73b4c57165f1621e").Build();
+		// Load the interstitial with the request.
+		interstitial.LoadAd(request);
+	}
+	
+	private void ShowAds() {
+		interstitial.Show();
+		interstitial.Destroy();
+		RequestInterstitial();
+		timeShowAds = 0;
+	}
+
 	// Update is called once per frame
 	void Update() {
+		timeShowAds += Time.unscaledDeltaTime;
+		
 		if (state == GameState.PLAY) {
 			if (Input.GetMouseButtonDown(0)) {
 				Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -107,5 +154,10 @@ public class SCR_Gameplay : MonoBehaviour {
 		txtBest.GetComponent<Text>().text = "BEST " + best.ToString();
 		txtBest.SetActive(true);
 		state = GameState.FINISH;
+
+
+		if (timeShowAds >= TIME_SHOW_ADS && interstitial.IsLoaded()) {
+			ShowAds();
+		}
 	}
 }

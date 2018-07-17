@@ -241,7 +241,7 @@ PlayerSettings:
   AndroidTargetArchitectures: 5
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: C:/Users/canh.daongoc/Downloads/funnyhobos.keystore
+  AndroidKeystoreName: /Users/Canh/funnyhobos.keystore
   AndroidKeyaliasName: funny hobos
   AndroidTVCompatibility: 1
   AndroidIsGame: 1
