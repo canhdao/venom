@@ -37,8 +37,8 @@ GameObject:
   - component: {fileID: 4915891490751786}
   - component: {fileID: 212198394559097008}
   - component: {fileID: 95201597748800110}
-  - component: {fileID: 58421380679768728}
   - component: {fileID: 114221433690222324}
+  - component: {fileID: 70821419869921132}
   m_Layer: 0
   m_Name: PFB_DogSoldier
   m_TagString: Untagged
@@ -73,8 +73,8 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!58 &58421380679768728
-CircleCollider2D:
+--- !u!70 &70821419869921132
+CapsuleCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -85,9 +85,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 1
+  m_Offset: {x: 0, y: 0.4}
+  m_Size: {x: 2.45, y: 4}
+  m_Direction: 0
 --- !u!95 &95201597748800110
 Animator:
   serializedVersion: 3

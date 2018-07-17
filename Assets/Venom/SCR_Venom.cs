@@ -55,7 +55,7 @@ public class SCR_Venom : MonoBehaviour {
 	}
 
 	public void Attack(float x, float y) {
-		animator.SetTrigger("attack");
+		animator.SetBool("attack", true);
 
 		Vector2 targetVector = new Vector2(x - forearm.transform.position.x, y - forearm.transform.position.y);
 
@@ -68,12 +68,14 @@ public class SCR_Venom : MonoBehaviour {
 			originalScale.z);
 
 		upperArm.transform.localEulerAngles = forearm.transform.localEulerAngles;
+		
+		OnStartAttackLoop();
 	}
 
 	public void AttackComplete() {
 		forearm.SetActive(false);
 		upperArm.SetActive(false);
 
-		animator.SetTrigger("idle");
+		animator.SetBool("attack", false);
 	}
 }
