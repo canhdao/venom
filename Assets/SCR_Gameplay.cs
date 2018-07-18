@@ -35,8 +35,8 @@ public class SCR_Gameplay : MonoBehaviour {
 
 	private InterstitialAd interstitial;
 
-	private const float TIME_SHOW_ADS = 30;
-	private static float timeShowAds = 0;
+	private const float TIME_SHOW_ADS = 15;
+	private static float timeShowAds = TIME_SHOW_ADS;
 
 	// Use this for initialization
 	void Start() {
@@ -83,7 +83,7 @@ public class SCR_Gameplay : MonoBehaviour {
 		interstitial = new InterstitialAd(adUnitId);
 
 		// Create an empty ad request.
-		AdRequest request = new AdRequest.Builder().AddTestDevice("f76690eb0615cccc73b4c57165f1621e").Build();
+		AdRequest request = new AdRequest.Builder().AddTestDevice("f76690eb0615cccc73b4c57165f1621e").AddTestDevice("36e6813a9776d338128e27da33a0467f").Build();
 		// Load the interstitial with the request.
 		interstitial.LoadAd(request);
 	}
