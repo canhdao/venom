@@ -6,17 +6,32 @@ using UnityEngine.SceneManagement;
 using GoogleMobileAds.Api;
 
 public enum GameState {
+	READY,
 	PLAY,
 	FINISH
 }
 
 public class SCR_Gameplay : MonoBehaviour {
+	private const float TIME_SHOW_ADS			= 15;
+
+	private const float SPAWN_TIME_MIN			= 1;
+	private const float SPAWN_TIME_MAX			= 2;
+
+	private const float CAMERA_SIZE_READY		= 4.8f;
+	private const float CAMERA_SIZE_PLAY		= 9.6f;
+
+	private const float CAMERA_POSITION_READY	= -4.8f;
+	private const float CAMERA_POSITION_PLAY	= 0;
+
 	public GameObject[] PFB_ENEMY;
 	public GameObject PFB_DOG;
 
 	public GameObject venom;
 	public GameObject txtScore;
 	public GameObject txtBest;
+
+	public GameObject title;
+	public GameObject tapToPlay;
 
 	public static SCR_Gameplay instance;
 
@@ -25,9 +40,6 @@ public class SCR_Gameplay : MonoBehaviour {
 
 	public GameState state;
 
-	private const float SPAWN_TIME_MIN = 1;
-	private const float SPAWN_TIME_MAX = 2;
-
 	private float spawnTime;
 
 	private int score;
@@ -35,7 +47,6 @@ public class SCR_Gameplay : MonoBehaviour {
 
 	private InterstitialAd interstitial;
 
-	private const float TIME_SHOW_ADS = 15;
 	private static float timeShowAds = TIME_SHOW_ADS;
 
 	// Use this for initialization
@@ -49,9 +60,13 @@ public class SCR_Gameplay : MonoBehaviour {
 		score = 0;
 		best = PlayerPrefs.GetInt("best", 0);
 
+		txtScore.SetActive(false);
 		txtBest.SetActive(false);
 
-		state = GameState.PLAY;
+		transform.position = new Vector3(transform.position.x, CAMERA_POSITION_READY, transform.position.z);
+		Camera.main.orthographicSize = CAMERA_SIZE_READY;
+
+		state = GameState.READY;
 
 		instance = this;
 
@@ -98,7 +113,7 @@ public class SCR_Gameplay : MonoBehaviour {
 	// Update is called once per frame
 	void Update() {
 		timeShowAds += Time.unscaledDeltaTime;
-		
+
 		if (state == GameState.PLAY) {
 			if (Input.GetMouseButtonDown(0)) {
 				Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -128,12 +143,21 @@ public class SCR_Gameplay : MonoBehaviour {
 
 			spawnTime -= Time.deltaTime;
 			if (spawnTime <= 0) {
-				GameObject enemy = Instantiate(PFB_ENEMY[Random.Range(0, PFB_ENEMY.Length)]);
-				enemy.transform.position = new Vector3(Random.Range(-screenWidth * 0.5f, screenWidth * 0.5f), screenHeight * 0.5f, enemy.transform.position.z);
+				SpawnEnemy();
 				spawnTime = Random.Range(SPAWN_TIME_MIN, SPAWN_TIME_MAX);
 			}
 		}
 
+		if (state == GameState.READY) {
+			if (Input.GetMouseButtonDown(0)) {
+				title.SetActive(false);
+				tapToPlay.SetActive(false);
+				txtScore.SetActive(true);
+				ZoomCamera();
+				state = GameState.PLAY;
+			}
+		}
+		
 		if (state == GameState.FINISH) {
 			if (Input.GetMouseButtonDown(0)) {
 				SceneManager.LoadScene("SCN_Gameplay");
@@ -155,9 +179,24 @@ public class SCR_Gameplay : MonoBehaviour {
 		txtBest.SetActive(true);
 		state = GameState.FINISH;
 
-
 		if (timeShowAds >= TIME_SHOW_ADS && interstitial.IsLoaded()) {
 			ShowAds();
 		}
+	}
+
+	private void ZoomCamera() {
+		iTween.MoveTo(gameObject, iTween.Hash("y", CAMERA_POSITION_PLAY, "time", 0.5f, "easetype", "easeOutSine"));
+		iTween.ValueTo(gameObject, iTween.Hash("from", CAMERA_SIZE_READY, "to", CAMERA_SIZE_PLAY, "time", 0.5f, "easetype", "easeOutSine", "onupdate", "UpdateCameraSize"));
+	}
+
+	private void UpdateCameraSize(float size) {
+		Camera.main.orthographicSize = size;
+	}
+
+	private void SpawnEnemy() {
+		GameObject prefab = PFB_ENEMY[Random.Range(0, PFB_ENEMY.Length)];
+		GameObject enemy = Instantiate(prefab);
+		float margin = prefab.GetComponent<SCR_Enemy>().GetSpawnMargin();
+		enemy.transform.position = new Vector3(Random.Range(-screenWidth * 0.5f, screenWidth * 0.5f), screenHeight * 0.5f + margin, enemy.transform.position.z);
 	}
 }

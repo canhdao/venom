@@ -41,4 +41,8 @@ public class SCR_Truck : SCR_Enemy {
 		dogMiddleRight.GetComponent<SCR_Enemy>().speedX = DIAGONAL_SPEED_X * 0.5f;
 		dogMiddleRight.GetComponent<SCR_Enemy>().speedY = DIAGONAL_SPEED_Y * 1.2f;
 	}
+
+	public override float GetSpawnMargin() {
+		return GetComponent<BoxCollider2D>().size.y * transform.localScale.y;
+	}
 }
