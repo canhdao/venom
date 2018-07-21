@@ -160,6 +160,7 @@ public class SCR_Gameplay : MonoBehaviour {
 				title.SetActive(false);
 				tapToPlay.SetActive(false);
 				txtScore.SetActive(true);
+				venom.GetComponent<Animator>().SetTrigger("ultimate");
 				ZoomCamera();
 				state = GameState.PLAY;
 			}
