@@ -5,26 +5,42 @@ using UnityEngine;
 public class SCR_Venom : MonoBehaviour {
 	public GameObject PFB_BREAK;
 
-	public GameObject upperArm;
-	public GameObject forearm;
-	public GameObject hand;
+	public GameObject upperArmLeft;
+	public GameObject forearmLeft;
+	public GameObject handLeft;
+
+	public GameObject upperArmRight;
+	public GameObject forearmRight;
+	public GameObject handRight;
 
 	private Animator animator;
 
+	// ultimate
 	private const float BREAK_OFFSET_X = 0.25f;
 	private const float BREAK_OFFSET_Y = 2.75f;
 
-	private Vector2 originalVector;
-	private Vector3 originalScale;
+	// normal attack
+	private Vector2 originalVectorLeft;
+	private Vector3 originalScaleLeft;
+
+	private Vector2 originalVectorRight;
+	private Vector3 originalScaleRight;
 
 	private float attackTime;
 
 	// Use this for initialization
 	void Start() {
-		upperArm.SetActive(false);
-		forearm.SetActive(false);
-		originalVector = new Vector2(hand.transform.position.x - forearm.transform.position.x, hand.transform.position.y - forearm.transform.position.y);
-		originalScale = forearm.transform.localScale;
+		upperArmLeft.SetActive(false);
+		forearmLeft.SetActive(false);
+
+		upperArmRight.SetActive(false);
+		forearmRight.SetActive(false);
+
+		originalVectorLeft = new Vector2(handLeft.transform.position.x - forearmLeft.transform.position.x, handLeft.transform.position.y - forearmLeft.transform.position.y);
+		originalScaleLeft = forearmLeft.transform.localScale;
+
+		originalVectorRight = new Vector2(handRight.transform.position.x - forearmRight.transform.position.x, handRight.transform.position.y - forearmRight.transform.position.y);
+		originalScaleRight = forearmRight.transform.localScale;
 
 		animator = GetComponent<Animator>();
 
@@ -42,20 +58,31 @@ public class SCR_Venom : MonoBehaviour {
 		}
 	}
 
-	public void OnCompleteAnimationUltimate() {
+	private void OnCompleteAnimationUltimate() {
 		GameObject effect = Instantiate(PFB_BREAK);
 		effect.transform.position = new Vector3(transform.position.x + BREAK_OFFSET_X, transform.position.y + BREAK_OFFSET_Y, transform.position.z);
 	}
 
-	public void OnStartAttackLoop() {
-		upperArm.SetActive(true);
-		forearm.SetActive(true);
-
-		attackTime = 0;
-	}
-
 	public void Attack(float x, float y) {
-		animator.SetBool("attack", true);
+		GameObject forearm = null;
+		GameObject upperArm = null;
+		Vector2 originalVector;
+		Vector3 originalScale;
+
+		if (x < 0) {
+			animator.SetBool("attackLeft", true);
+			forearm = forearmLeft;
+			upperArm = upperArmLeft;
+			originalVector = originalVectorLeft;
+			originalScale = originalScaleLeft;
+		}
+		else {
+			animator.SetBool("attackRight", true);
+			forearm = forearmRight;
+			upperArm = upperArmRight;
+			originalVector = originalVectorRight;
+			originalScale = originalScaleRight;
+		}
 
 		Vector2 targetVector = new Vector2(x - forearm.transform.position.x, y - forearm.transform.position.y);
 
@@ -69,13 +96,20 @@ public class SCR_Venom : MonoBehaviour {
 
 		upperArm.transform.localEulerAngles = forearm.transform.localEulerAngles;
 		
-		OnStartAttackLoop();
+		upperArm.SetActive(true);
+		forearm.SetActive(true);
+
+		attackTime = 0;
 	}
 
-	public void AttackComplete() {
-		forearm.SetActive(false);
-		upperArm.SetActive(false);
+	private void AttackComplete() {
+		forearmLeft.SetActive(false);
+		upperArmLeft.SetActive(false);
 
-		animator.SetBool("attack", false);
+		forearmRight.SetActive(false);
+		upperArmRight.SetActive(false);
+
+		animator.SetBool("attackLeft", false);
+		animator.SetBool("attackRight", false);
 	}
 }
