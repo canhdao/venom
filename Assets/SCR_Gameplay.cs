@@ -27,8 +27,13 @@ public class SCR_Gameplay : MonoBehaviour {
 	public GameObject PFB_DOG;
 
 	public GameObject venom;
+
+	public GameObject cvsGameplay;
+	public GameObject cvsGameOver;
+
 	public GameObject txtScore;
 	public GameObject txtBest;
+	public GameObject txtKilled;
 
 	public GameObject title;
 	public GameObject tapToPlay;
@@ -61,10 +66,12 @@ public class SCR_Gameplay : MonoBehaviour {
 		best = PlayerPrefs.GetInt("best", 0);
 
 		txtScore.SetActive(false);
-		txtBest.SetActive(false);
 
 		transform.position = new Vector3(transform.position.x, CAMERA_POSITION_READY, transform.position.z);
 		Camera.main.orthographicSize = CAMERA_SIZE_READY;
+
+		cvsGameplay.SetActive(true);
+		cvsGameOver.SetActive(false);
 
 		state = GameState.READY;
 
@@ -175,8 +182,12 @@ public class SCR_Gameplay : MonoBehaviour {
 	}
 
 	public void GameOver() {
-		txtBest.GetComponent<Text>().text = "BEST " + best.ToString();
-		txtBest.SetActive(true);
+		txtKilled.GetComponent<Text>().text = "KILLED: " + score.ToString();
+		txtBest.GetComponent<Text>().text = "BEST: " + best.ToString();
+
+		cvsGameplay.SetActive(false);
+		cvsGameOver.SetActive(true);
+
 		state = GameState.FINISH;
 
 		if (timeShowAds >= TIME_SHOW_ADS && interstitial.IsLoaded()) {
