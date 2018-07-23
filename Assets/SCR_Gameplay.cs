@@ -140,12 +140,8 @@ public class SCR_Gameplay : MonoBehaviour {
 		        }
 			}
 
-			//if (Input.GetMouseButtonUp(0)) {
-			//	venom.GetComponent<SCR_Venom>().AttackComplete();
-			//}
-
 			if (Input.GetMouseButtonDown(1)) {
-				venom.GetComponent<Animator>().SetTrigger("ultimate");
+				venom.GetComponent<Animator>().SetTrigger("special");
 			}
 
 			spawnTime -= Time.deltaTime;

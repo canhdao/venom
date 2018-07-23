@@ -18,9 +18,13 @@ public class SCR_Venom : MonoBehaviour {
 
 	private Animator animator;
 
+	// special
+	private const float BREAK_OFFSET_X_SPECIAL	= -1.5f;
+	private const float BREAK_OFFSET_Y_SPECIAL	= 3.0f;
+
 	// ultimate
-	private const float BREAK_OFFSET_X = 0.25f;
-	private const float BREAK_OFFSET_Y = 2.75f;
+	private const float BREAK_OFFSET_X_ULTIMATE	= 0.25f;
+	private const float BREAK_OFFSET_Y_ULTIMATE	= 2.75f;
 
 	// normal attack
 	private Vector2 originalVectorLeft;
@@ -69,9 +73,20 @@ public class SCR_Venom : MonoBehaviour {
 		}
 	}
 
-	private void OnCompleteAnimationUltimate() {
+	private void OnShowBreakSpecial() {
 		GameObject effect = Instantiate(PFB_BREAK);
-		effect.transform.position = new Vector3(transform.position.x + BREAK_OFFSET_X, transform.position.y + BREAK_OFFSET_Y, transform.position.z);
+		effect.transform.position = new Vector3(
+			transform.position.x + BREAK_OFFSET_X_SPECIAL,
+			transform.position.y + BREAK_OFFSET_Y_SPECIAL,
+			transform.position.z);
+	}
+	
+	private void OnShowBreakUltimate() {
+		GameObject effect = Instantiate(PFB_BREAK);
+		effect.transform.position = new Vector3(
+			transform.position.x + BREAK_OFFSET_X_ULTIMATE,
+			transform.position.y + BREAK_OFFSET_Y_ULTIMATE,
+			transform.position.z);
 	}
 
 	public void Attack(float x, float y) {
