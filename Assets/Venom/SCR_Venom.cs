@@ -98,6 +98,8 @@ public class SCR_Venom : MonoBehaviour {
 		float TONGUE_LEFT = -SCR_Gameplay.screenWidth / 6;
 		float TONGUE_RIGHT = -TONGUE_LEFT;
 
+		AttackComplete();
+		
 		if (x < TONGUE_LEFT) {
 			animator.SetBool("attackLeft", true);
 			forearm = forearmLeft;

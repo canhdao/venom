@@ -23,20 +23,26 @@ public class SCR_Gameplay : MonoBehaviour {
 	private const float CAMERA_POSITION_READY	= -4.8f;
 	private const float CAMERA_POSITION_PLAY	= 0;
 
-	public GameObject[] PFB_ENEMY;
-	public GameObject PFB_DOG;
+	public GameObject[]	PFB_ENEMY;
+	public GameObject	PFB_DOG;
 
-	public GameObject venom;
+	public GameObject	venom;
 
-	public GameObject cvsGameplay;
-	public GameObject cvsGameOver;
+	public GameObject	cvsGameplay;
+	public GameObject	cvsGameOver;
 
-	public GameObject txtScore;
-	public GameObject txtBest;
-	public GameObject txtKilled;
+	public GameObject	txtScore;
+	public GameObject	txtBest;
+	public GameObject	txtKilled;
 
-	public GameObject title;
-	public GameObject tapToPlay;
+	public GameObject	title;
+	public GameObject	tapToPlay;
+	
+	public AudioSource	source;
+	
+	public AudioClip	sndMainMenu;
+	public AudioClip	sndGameplay;
+	public AudioClip	sndHit;
 
 	public static SCR_Gameplay instance;
 
@@ -72,6 +78,9 @@ public class SCR_Gameplay : MonoBehaviour {
 
 		cvsGameplay.SetActive(true);
 		cvsGameOver.SetActive(false);
+		
+		source.clip = sndMainMenu;
+		source.Play();
 
 		state = GameState.READY;
 
@@ -135,6 +144,7 @@ public class SCR_Gameplay : MonoBehaviour {
 		            	if (scrEnemy.state == EnemyState.RUN) {
 		            		scrEnemy.Die();
 		            		IncreaseScore();
+							source.PlayOneShot(sndHit);
 		            	}
 		            }
 		        }
@@ -158,6 +168,8 @@ public class SCR_Gameplay : MonoBehaviour {
 				txtScore.SetActive(true);
 				venom.GetComponent<Animator>().SetTrigger("ultimate");
 				ZoomCamera();
+				source.clip = sndGameplay;
+				source.Play();
 				state = GameState.PLAY;
 			}
 		}
