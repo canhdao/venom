@@ -70,8 +70,7 @@ public class SCR_Enemy : MonoBehaviour {
 
 				spriteRenderer.sortingOrder = (int)(SCR_Gameplay.screenHeight * 0.5f - transform.position.y) + 2;
 				if (transform.position.y < -SCR_Gameplay.screenHeight * 0.5f) {
-					//Destroy(gameObject);
-					SCR_Gameplay.instance.GameOver();
+					OnOutOfScreen();
 				}
 			}
 		}
@@ -90,5 +89,9 @@ public class SCR_Enemy : MonoBehaviour {
 
 	public virtual float GetSpawnMargin() {
 		return GetComponent<CapsuleCollider2D>().size.y * transform.localScale.y;
+	}
+
+	public virtual void OnOutOfScreen() {
+		SCR_Gameplay.instance.GameOver();
 	}
 }

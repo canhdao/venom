@@ -1594,6 +1594,7 @@ MonoBehaviour:
   - {fileID: 1991567689738328, guid: e23f407d1416549488249e4b1d9be598, type: 2}
   - {fileID: 1991567689738328, guid: 1517ef41fa3e04378bdf707b5f5aaa32, type: 2}
   - {fileID: 1991567689738328, guid: 0bcb9d29079a9344cbd97ff07ecb1950, type: 2}
+  - {fileID: 1991567689738328, guid: 2b4679370f536468e9f124ba46e5ada8, type: 2}
   PFB_DOG: {fileID: 1991567689738328, guid: 8ab8d83b40d2b4877a282b8713e0697e, type: 2}
   venom: {fileID: 279782466}
   cvsGameplay: {fileID: 1493809466}
