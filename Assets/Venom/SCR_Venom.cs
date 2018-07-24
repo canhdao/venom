@@ -38,8 +38,7 @@ public class SCR_Venom : MonoBehaviour {
 
 	private float attackTime;
 
-	// Use this for initialization
-	void Start() {
+	void Awake() {
 		upperArmLeft.SetActive(false);
 		forearmLeft.SetActive(false);
 
@@ -47,7 +46,10 @@ public class SCR_Venom : MonoBehaviour {
 		forearmRight.SetActive(false);
 
 		tongueStart.SetActive(false);
+	}
 
+	// Use this for initialization
+	void Start() {
 		originalVectorLeft = new Vector2(handLeft.transform.position.x - forearmLeft.transform.position.x, handLeft.transform.position.y - forearmLeft.transform.position.y);
 		originalScaleLeft = forearmLeft.transform.localScale;
 

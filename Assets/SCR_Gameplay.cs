@@ -32,6 +32,7 @@ public class SCR_Gameplay : MonoBehaviour {
 	public GameObject	cvsGameOver;
 
 	public GameObject	txtScore;
+	public GameObject	txtWave;
 	public GameObject	txtBest;
 	public GameObject	txtKilled;
 
@@ -72,6 +73,7 @@ public class SCR_Gameplay : MonoBehaviour {
 		best = PlayerPrefs.GetInt("best", 0);
 
 		txtScore.SetActive(false);
+		txtWave.SetActive(false);
 
 		transform.position = new Vector3(transform.position.x, CAMERA_POSITION_READY, transform.position.z);
 		Camera.main.orthographicSize = CAMERA_SIZE_READY;
@@ -166,6 +168,7 @@ public class SCR_Gameplay : MonoBehaviour {
 				title.SetActive(false);
 				tapToPlay.SetActive(false);
 				txtScore.SetActive(true);
+				SpawnWave(1);
 				venom.GetComponent<Animator>().SetTrigger("ultimate");
 				ZoomCamera();
 				source.clip = sndGameplay;
@@ -218,5 +221,20 @@ public class SCR_Gameplay : MonoBehaviour {
 		GameObject enemy = Instantiate(prefab);
 		float margin = prefab.GetComponent<SCR_Enemy>().GetSpawnMargin();
 		enemy.transform.position = new Vector3(Random.Range(-screenWidth * 0.5f, screenWidth * 0.5f), screenHeight * 0.5f + margin, enemy.transform.position.z);
+	}
+
+	private void SpawnWave(int wave) {
+		txtWave.GetComponent<Text>().text = "Wave " + wave.ToString();
+		txtWave.SetActive(true);
+		iTween.ValueTo(gameObject, iTween.Hash("from", 1, "to", 0, "time", 0.3f, "delay", 2.0f, "easetype", "easeInOutSine", "onupdate", "UpdateFadeWave", "oncomplete", "CompleteFadeWave"));
+	}
+
+	private void UpdateFadeWave(float alpha) {
+		Text text = txtWave.GetComponent<Text>();
+		text.color = new Color(text.color.r, text.color.g, text.color.b, alpha);
+	}
+
+	private void CompleteFadeWave() {
+		txtWave.SetActive(false);
 	}
 }
