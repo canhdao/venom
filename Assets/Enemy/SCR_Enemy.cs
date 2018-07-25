@@ -111,7 +111,11 @@ public class SCR_Enemy : MonoBehaviour {
 		Destroy(gameObject);
 	}
 
-	public virtual float GetSpawnMargin() {
+	public virtual float GetSpawnMarginX() {
+		return GetComponent<CapsuleCollider2D>().size.x * transform.localScale.x;
+	}
+
+	public virtual float GetSpawnMarginY() {
 		return GetComponent<CapsuleCollider2D>().size.y * transform.localScale.y;
 	}
 

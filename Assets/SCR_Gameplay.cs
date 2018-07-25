@@ -11,6 +11,11 @@ public enum GameState {
 	FINISH
 }
 
+public enum PatternType {
+	TWO,
+	THREE
+}
+
 public class SCR_Gameplay : MonoBehaviour {
 	private const float TIME_SHOW_ADS			= 15;
 
@@ -169,7 +174,16 @@ public class SCR_Gameplay : MonoBehaviour {
 			if (spawningEnemies) {
 				spawnTime -= Time.deltaTime;
 				if (spawnTime <= 0) {
-					SpawnEnemy();
+					float r = Random.Range(0f, 100f);
+					if (r < SCR_Config.RATE_PATTERN_2) {
+						SpawnPattern(PatternType.TWO);
+					}
+					else if (r < SCR_Config.RATE_PATTERN_2 + SCR_Config.RATE_PATTERN_3) {
+						SpawnPattern(PatternType.THREE);
+					}
+					else {
+						SpawnEnemy();
+					}
 					spawnTime = Random.Range(SPAWN_TIME_MIN, SPAWN_TIME_MAX);
 				}
 			}
@@ -234,7 +248,30 @@ public class SCR_Gameplay : MonoBehaviour {
 		Camera.main.orthographicSize = size;
 	}
 
-	private void SpawnEnemy() {
+	private void SpawnPattern(PatternType type) {
+		float distance = 2;
+		float x = Random.Range(-screenWidth * 0.3f, screenWidth * 0.3f);
+		float y = screenHeight * 0.5f;
+		float randomY = screenHeight * 0.05f;
+
+		if (type == PatternType.TWO) {
+			SpawnEnemy(x - distance * 0.5f, y + Random.Range(0f, randomY));
+			SpawnEnemy(x + distance * 0.5f, y + Random.Range(0f, randomY));
+		}
+
+		if (type == PatternType.THREE) {
+			SpawnEnemy(x - distance, y + Random.Range(0f, randomY));
+			SpawnEnemy(x, y + Random.Range(0f, randomY));
+			SpawnEnemy(x + distance, y + Random.Range(0f, randomY));
+		}
+	}
+
+	private void SpawnEnemy(float x, float y) {
+		GameObject enemy = SpawnEnemy();
+		enemy.transform.position = new Vector3(x, y, enemy.transform.position.z);
+	}
+
+	private GameObject SpawnEnemy() {
 		int wave = currentWave - 1;
 		if (wave > SCR_Config.NUMBER_ENEMIES.Length - 1) wave = SCR_Config.NUMBER_ENEMIES.Length - 1;
 		
@@ -273,14 +310,17 @@ public class SCR_Gameplay : MonoBehaviour {
 		
 		GameObject prefab = PFB_ENEMY[choose];
 		GameObject enemy = Instantiate(prefab);
-		float margin = prefab.GetComponent<SCR_Enemy>().GetSpawnMargin();
-		enemy.transform.position = new Vector3(Random.Range(-screenWidth * 0.5f, screenWidth * 0.5f), screenHeight * 0.5f + margin, enemy.transform.position.z);
+		float marginX = prefab.GetComponent<SCR_Enemy>().GetSpawnMarginX();
+		float marginY = prefab.GetComponent<SCR_Enemy>().GetSpawnMarginY();
+		enemy.transform.position = new Vector3(Random.Range(-screenWidth * 0.5f + marginX, screenWidth * 0.5f - marginX), screenHeight * 0.5f + marginY, enemy.transform.position.z);
 		
 		spawnCount++;
 		if (spawnCount >= SCR_Config.NUMBER_ENEMIES[wave]) {
 			spawningEnemies = false;
 			gapTime = 0;
 		}
+
+		return enemy;
 	}
 
 	private void SpawnWave(int wave) {
