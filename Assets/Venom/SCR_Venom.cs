@@ -19,8 +19,8 @@ public class SCR_Venom : MonoBehaviour {
 	private Animator animator;
 
 	// special
-	private const float BREAK_OFFSET_X_SPECIAL	= -1.5f;
-	private const float BREAK_OFFSET_Y_SPECIAL	= 3.0f;
+	private const float BREAK_OFFSET_X_SPECIAL	= 0f;
+	private const float BREAK_OFFSET_Y_SPECIAL	= 0f;
 
 	// ultimate
 	private const float BREAK_OFFSET_X_ULTIMATE	= 0.25f;
