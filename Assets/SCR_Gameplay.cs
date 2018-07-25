@@ -60,6 +60,12 @@ public class SCR_Gameplay : MonoBehaviour {
 	private InterstitialAd interstitial;
 
 	private static float timeShowAds = TIME_SHOW_ADS;
+	
+	// Spawn enemies wave by wave
+	private bool spawningEnemies;
+	private int spawnCount;
+	private int currentWave;
+	private float gapTime;
 
 	// Use this for initialization
 	void Start() {
@@ -83,6 +89,10 @@ public class SCR_Gameplay : MonoBehaviour {
 		
 		source.clip = sndMainMenu;
 		source.Play();
+		
+		spawningEnemies = false;
+		spawnCount = 0;
+		currentWave = 0;
 
 		state = GameState.READY;
 
@@ -155,11 +165,19 @@ public class SCR_Gameplay : MonoBehaviour {
 			if (Input.GetMouseButtonDown(1)) {
 				venom.GetComponent<Animator>().SetTrigger("special");
 			}
-
-			spawnTime -= Time.deltaTime;
-			if (spawnTime <= 0) {
-				SpawnEnemy();
-				spawnTime = Random.Range(SPAWN_TIME_MIN, SPAWN_TIME_MAX);
+			
+			if (spawningEnemies) {
+				spawnTime -= Time.deltaTime;
+				if (spawnTime <= 0) {
+					SpawnEnemy();
+					spawnTime = Random.Range(SPAWN_TIME_MIN, SPAWN_TIME_MAX);
+				}
+			}
+			else if (currentWave >= 1) {
+				gapTime += Time.deltaTime;
+				if (gapTime >= SCR_Config.WAVE_GAP_TIME) {
+					SpawnWave(currentWave + 1);
+				}
 			}
 		}
 
@@ -217,16 +235,63 @@ public class SCR_Gameplay : MonoBehaviour {
 	}
 
 	private void SpawnEnemy() {
-		GameObject prefab = PFB_ENEMY[Random.Range(0, PFB_ENEMY.Length)];
+		int wave = currentWave - 1;
+		if (wave > SCR_Config.NUMBER_ENEMIES.Length - 1) wave = SCR_Config.NUMBER_ENEMIES.Length - 1;
+		
+		float rateSoldier1		= SCR_Config.RATE_SOLDIER_1[wave];
+		float rateSoldier2		= SCR_Config.RATE_SOLDIER_2[wave];
+		float rateSoldier3		= SCR_Config.RATE_SOLDIER_3[wave];
+		float rateSoldier4		= SCR_Config.RATE_SOLDIER_4[wave];
+		float rateDogSoldier	= SCR_Config.RATE_DOG_SOLDIER[wave];
+		float rateTruck			= SCR_Config.RATE_TRUCK[wave];
+		float rateGirl			= SCR_Config.RATE_GIRL[wave];
+		
+		float r = Random.Range(0.0f, 100.0f);
+		int choose = 0;
+		
+		if (r < rateSoldier1) {
+			choose = 0;
+		}
+		else if (r < rateSoldier1 + rateSoldier2) {
+			choose = 1;
+		}
+		else if (r < rateSoldier1 + rateSoldier2 + rateSoldier3) {
+			choose = 2;
+		}
+		else if (r < rateSoldier1 + rateSoldier2 + rateSoldier3 + rateSoldier4) {
+			choose = 3;
+		}
+		else if (r < rateSoldier1 + rateSoldier2 + rateSoldier3 + rateSoldier4 + rateDogSoldier) {
+			choose = 4;
+		}
+		else if (r < rateSoldier1 + rateSoldier2 + rateSoldier3 + rateSoldier4 + rateDogSoldier + rateTruck) {
+			choose = 5;
+		}
+		else {
+			choose = 6;
+		}
+		
+		GameObject prefab = PFB_ENEMY[choose];
 		GameObject enemy = Instantiate(prefab);
 		float margin = prefab.GetComponent<SCR_Enemy>().GetSpawnMargin();
 		enemy.transform.position = new Vector3(Random.Range(-screenWidth * 0.5f, screenWidth * 0.5f), screenHeight * 0.5f + margin, enemy.transform.position.z);
+		
+		spawnCount++;
+		if (spawnCount >= SCR_Config.NUMBER_ENEMIES[wave]) {
+			spawningEnemies = false;
+			gapTime = 0;
+		}
 	}
 
 	private void SpawnWave(int wave) {
 		txtWave.GetComponent<Text>().text = "Wave " + wave.ToString();
 		txtWave.SetActive(true);
-		iTween.ValueTo(gameObject, iTween.Hash("from", 1, "to", 0, "time", 0.3f, "delay", 2.0f, "easetype", "easeInOutSine", "onupdate", "UpdateFadeWave", "oncomplete", "CompleteFadeWave"));
+		iTween.ValueTo(gameObject, iTween.Hash("from", 0, "to", 1, "time", 0.3f, "easetype", "easeInOutSine", "onupdate", "UpdateFadeWave"));
+		iTween.ValueTo(gameObject, iTween.Hash("from", 1, "to", 0, "time", 0.3f, "delay", 3.0f, "easetype", "easeInOutSine", "onupdate", "UpdateFadeWave", "oncomplete", "CompleteFadeWave"));
+		
+		spawningEnemies = true;
+		spawnCount = 0;
+		currentWave = wave;
 	}
 
 	private void UpdateFadeWave(float alpha) {
