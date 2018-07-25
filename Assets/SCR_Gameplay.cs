@@ -244,7 +244,7 @@ public class SCR_Gameplay : MonoBehaviour {
 		float rateSoldier4		= SCR_Config.RATE_SOLDIER_4[wave];
 		float rateDogSoldier	= SCR_Config.RATE_DOG_SOLDIER[wave];
 		float rateTruck			= SCR_Config.RATE_TRUCK[wave];
-		float rateGirl			= SCR_Config.RATE_GIRL[wave];
+		//float rateGirl			= SCR_Config.RATE_GIRL[wave];
 		
 		float r = Random.Range(0.0f, 100.0f);
 		int choose = 0;

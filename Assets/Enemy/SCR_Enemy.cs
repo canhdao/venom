@@ -13,10 +13,14 @@ public enum MoveType {
 }
 */
 public class SCR_Enemy : MonoBehaviour {
-	public const float STRAIGHT_SPEED	= 3;
-	public const float DIAGONAL_SPEED_X	= 3;
-	public const float DIAGONAL_SPEED_Y	= 5; 
+	public const float STRAIGHT_SPEED		= 3;
+	public const float DIAGONAL_SPEED_X		= 3;
+	public const float DIAGONAL_SPEED_Y		= 5; 
 	public const float DIAGONAL_RATE		= 0.5f;
+
+	public const float BOOST_SPEED_RATE		= 0.2f;
+	public const float BOOST_SPEED_Y_START	= 0.4f;
+	public const float BOOST_SPEED_Y_END	= 0.8f;
 
 	private SpriteRenderer spriteRenderer;
 	private Animator animator;
@@ -27,6 +31,9 @@ public class SCR_Enemy : MonoBehaviour {
 
 	public float speedX;
 	public float speedY;
+
+	private bool boostSpeed;
+	private float boostSpeedY;
 
 	// Use this for initialization
 	public virtual void Awake() {
@@ -50,6 +57,15 @@ public class SCR_Enemy : MonoBehaviour {
 			speedX = 0;
 			speedY = STRAIGHT_SPEED;
 		}
+
+		r = Random.Range(0f, 1f);
+		if (r < BOOST_SPEED_RATE) {
+			boostSpeed = true;
+			boostSpeedY = (Random.Range(BOOST_SPEED_Y_START, BOOST_SPEED_Y_END) - 0.5f) * SCR_Gameplay.screenHeight;
+		}
+		else {
+			boostSpeed = false;
+		}
 	}
 	
 	// Update is called once per frame
@@ -71,6 +87,14 @@ public class SCR_Enemy : MonoBehaviour {
 				spriteRenderer.sortingOrder = (int)(SCR_Gameplay.screenHeight * 0.5f - transform.position.y) + 2;
 				if (transform.position.y < -SCR_Gameplay.screenHeight * 0.5f) {
 					OnOutOfScreen();
+				}
+
+				if (boostSpeed) {
+					if (transform.position.y <= boostSpeedY) {
+						speedX *= 2;
+						speedY *= 2;
+						boostSpeed = false;
+					}
 				}
 			}
 		}
