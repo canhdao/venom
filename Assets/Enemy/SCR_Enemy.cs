@@ -11,6 +11,8 @@ public enum MoveType {
 	STRAIGHT,
 	DIAGONAL_LEFT,
 	DIAGONAL_RIGHT
+	// ZIG_ZAG // to-do
+	// CIRCLE
 }
 
 public enum Speed {
@@ -153,8 +155,8 @@ public class SCR_Enemy : MonoBehaviour {
 			speedY = DIAGONAL_SPEED_Y;
 		}
 		
-		normalSpeedX = speedX;
-		normalSpeedY = speedY;
+		normalSpeedX = Mathf.Abs(speedX);
+		normalSpeedY = Mathf.Abs(speedY);
 		
 		fastSpeedX = 2 * normalSpeedX;
 		fastSpeedY = 2 * normalSpeedY;
@@ -162,13 +164,19 @@ public class SCR_Enemy : MonoBehaviour {
 	
 	public virtual void SetSpeed(Speed s) {
 		speed = s;
+
+		int r = 0;
 		
 		if (speed == Speed.NORMAL) {
-			speedX = normalSpeedX;
+			r = Random.Range(0, 2);
+			if (r == 0) r = -1;
+			speedX = r * normalSpeedX;
 			speedY = normalSpeedY;
 		}
 		else {
-			speedX = fastSpeedX;
+			r = Random.Range(0, 2);
+			if (r == 0) r = -1;
+			speedX = r * fastSpeedX;
 			speedY = fastSpeedY;
 		}
 	}
