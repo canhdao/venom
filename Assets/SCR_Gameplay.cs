@@ -177,6 +177,9 @@ public class SCR_Gameplay : MonoBehaviour {
 					else if (r < SCR_Config.RATE_PATTERN_2 + SCR_Config.RATE_PATTERN_3) {
 						SpawnPattern(PatternType.THREE);
 					}
+					else if (r < SCR_Config.RATE_PATTERN_2 + SCR_Config.RATE_PATTERN_3 + SCR_Config.RATE_PATTERN_LINE) {
+						SpawnPattern(PatternType.LINE);
+					}
 					else {
 						SpawnPattern(PatternType.ONE);
 					}

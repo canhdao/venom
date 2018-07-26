@@ -15,6 +15,7 @@ public class SCR_Config {
 
 	public const float RATE_PATTERN_2 = 20;
 	public const float RATE_PATTERN_3 = 20;
+	public const float RATE_PATTERN_LINE = 20;
 	
 	public const float WAVE_GAP_TIME = 3;
 }

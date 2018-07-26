@@ -5,7 +5,8 @@ using UnityEngine;
 public enum PatternType {
 	ONE,
 	TWO,
-	THREE
+	THREE,
+	LINE
 }
 
 public class SCR_Pattern : MonoBehaviour {
@@ -25,26 +26,56 @@ public class SCR_Pattern : MonoBehaviour {
 		float distance = 2;
 		float x = Random.Range(-SCR_Gameplay.screenWidth * 0.3f, SCR_Gameplay.screenWidth * 0.3f);
 		float y = SCR_Gameplay.screenHeight * 0.5f;
-		float randomY = SCR_Gameplay.screenHeight * 0.05f;
+		float noise = SCR_Gameplay.screenHeight * 0.05f;
 		
 		if (type == PatternType.ONE) {
 			SpawnEnemy();
 		}
 
 		if (type == PatternType.TWO) {
-			SpawnEnemy(x - distance * 0.5f, y + Random.Range(0f, randomY));
-			SpawnEnemy(x + distance * 0.5f, y + Random.Range(0f, randomY));
+			SpawnEnemy(x - distance * 0.5f, y + Random.Range(0f, noise));
+			SpawnEnemy(x + distance * 0.5f, y + Random.Range(0f, noise));
 		}
 
 		if (type == PatternType.THREE) {
-			SpawnEnemy(x - distance, y + Random.Range(0f, randomY));
-			SpawnEnemy(x, y + Random.Range(0f, randomY));
-			SpawnEnemy(x + distance, y + Random.Range(0f, randomY));
+			SpawnEnemy(x - distance, y + Random.Range(0f, noise));
+			SpawnEnemy(x, y + Random.Range(0f, noise));
+			SpawnEnemy(x + distance, y + Random.Range(0f, noise));
+		}
+
+		if (type == PatternType.LINE) {
+			MoveType moveType = MoveType.STRAIGHT;
+
+			float r = Random.Range(0f, 1f);
+			if (r < 1.0f / 3.0f) {
+				moveType = MoveType.STRAIGHT;
+				SpawnEnemy(x + Random.Range(-noise * 0.5f, noise * 0.5f), y);
+				SpawnEnemy(x + Random.Range(-noise * 0.5f, noise * 0.5f), y + distance);
+				SpawnEnemy(x + Random.Range(-noise * 0.5f, noise * 0.5f), y + 2 * distance);
+			}
+			else if (r < 2.0f / 3.0f) {
+				moveType = MoveType.DIAGONAL_LEFT;
+				SpawnEnemy(x, y);
+				SpawnEnemy(x + distance, y + distance);
+				SpawnEnemy(x + 2 * distance, y + 2 * distance);
+			}
+			else {
+				moveType = MoveType.DIAGONAL_RIGHT;
+				SpawnEnemy(x, y);
+				SpawnEnemy(x - distance, y + distance);
+				SpawnEnemy(x - 2 * distance, y + 2 * distance);
+			}
+
+			for (int i = 0; i < transform.childCount; i++) {
+				transform.GetChild(i).GetComponent<SCR_Enemy>().SetMoveType(moveType);
+			}
 		}
 		
-		MoveType moveType = transform.GetChild(0).GetComponent<SCR_Enemy>().GetMoveType();
-		for (int i = 1; i < transform.childCount; i++) {
-			transform.GetChild(i).GetComponent<SCR_Enemy>().SetMoveType(moveType);
+		if (type != PatternType.LINE) {
+			MoveType moveType = transform.GetChild(0).GetComponent<SCR_Enemy>().GetMoveType();
+			for (int i = 1; i < transform.childCount; i++) {
+				transform.GetChild(i).GetComponent<SCR_Enemy>().SetMoveType(moveType);
+			}
 		}
 	}
 	
