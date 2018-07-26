@@ -22,8 +22,8 @@ public class SCR_Break : MonoBehaviour {
 			fading = true;
 		}
 	}
-
-	private void AudoDestroy() {
+	
+	private void AutoDestroy() {
 		Destroy(gameObject);
 	}
 }

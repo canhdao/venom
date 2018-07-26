@@ -6,12 +6,18 @@ public enum EnemyState {
 	RUN,
 	DIE
 }
-/*
+
 public enum MoveType {
 	STRAIGHT,
-	DIAGONAL
+	DIAGONAL_LEFT,
+	DIAGONAL_RIGHT
 }
-*/
+
+public enum Speed {
+	NORMAL,
+	FAST
+}
+
 public class SCR_Enemy : MonoBehaviour {
 	public const float STRAIGHT_SPEED		= 3;
 	public const float DIAGONAL_SPEED_X		= 3;
@@ -27,14 +33,21 @@ public class SCR_Enemy : MonoBehaviour {
 
 	public EnemyState state = EnemyState.RUN;
 
-	//private MoveType moveType = MoveType.STRAIGHT;
+	private MoveType moveType = MoveType.STRAIGHT;
+	private Speed speed = Speed.NORMAL;
 
 	public float speedX;
 	public float speedY;
+	
+	private float normalSpeedX;
+	private float normalSpeedY;
+	
+	private float fastSpeedX;
+	private float fastSpeedY;
 
 	private bool boostSpeed;
 	private float boostSpeedY;
-
+	
 	// Use this for initialization
 	public virtual void Awake() {
 		spriteRenderer = GetComponent<SpriteRenderer>();
@@ -42,20 +55,16 @@ public class SCR_Enemy : MonoBehaviour {
 
 		float r = Random.Range(0f, 1f);
 		if (r < DIAGONAL_RATE) {
-			//moveType = MoveType.DIAGONAL;
-			r = Random.Range(0f, 1f);
-			if (r < 0.5f) {
-				speedX = -DIAGONAL_SPEED_X;
+			float d = Random.Range(0f, 1f);
+			if (d < 0.5f) {
+				SetMoveType(MoveType.DIAGONAL_LEFT);
 			}
 			else {
-				speedX = DIAGONAL_SPEED_X;
+				SetMoveType(MoveType.DIAGONAL_RIGHT);
 			}
-			speedY = DIAGONAL_SPEED_Y;
 		}
 		else {
-			//moveType = MoveType.STRAIGHT;
-			speedX = 0;
-			speedY = STRAIGHT_SPEED;
+			SetMoveType(MoveType.STRAIGHT);
 		}
 
 		r = Random.Range(0f, 1f);
@@ -74,7 +83,7 @@ public class SCR_Enemy : MonoBehaviour {
 			if (state == EnemyState.RUN) {
 				float newX = transform.position.x + speedX * Time.deltaTime;
 				float newY = transform.position.y - speedY * Time.deltaTime;
-				transform.position = new Vector3(newX, newY, transform.position.z);
+				transform.position = new Vector3(newX, newY, newY);
 
 				if (newX > SCR_Gameplay.screenWidth * 0.5f) {
 					speedX = -Mathf.Abs(speedX);
@@ -91,8 +100,7 @@ public class SCR_Enemy : MonoBehaviour {
 
 				if (boostSpeed) {
 					if (transform.position.y <= boostSpeedY) {
-						speedX *= 2;
-						speedY *= 2;
+						SetSpeed(Speed.FAST);
 						boostSpeed = false;
 					}
 				}
@@ -121,5 +129,47 @@ public class SCR_Enemy : MonoBehaviour {
 
 	public virtual void OnOutOfScreen() {
 		SCR_Gameplay.instance.GameOver();
+	}
+	
+	public virtual MoveType GetMoveType() {
+		return moveType;
+	}
+	
+	public virtual void SetMoveType(MoveType mt) {
+		moveType = mt;
+		
+		if (moveType == MoveType.STRAIGHT) {
+			speedX = 0;
+			speedY = STRAIGHT_SPEED;
+		}
+		
+		if (moveType == MoveType.DIAGONAL_LEFT) {
+			speedX = -DIAGONAL_SPEED_X;
+			speedY = DIAGONAL_SPEED_Y;
+		}
+		
+		if (moveType == MoveType.DIAGONAL_RIGHT) {
+			speedX = DIAGONAL_SPEED_X;
+			speedY = DIAGONAL_SPEED_Y;
+		}
+		
+		normalSpeedX = speedX;
+		normalSpeedY = speedY;
+		
+		fastSpeedX = 2 * normalSpeedX;
+		fastSpeedY = 2 * normalSpeedY;
+	}
+	
+	public virtual void SetSpeed(Speed s) {
+		speed = s;
+		
+		if (s == Speed.NORMAL) {
+			speedX = normalSpeedX;
+			speedY = normalSpeedY;
+		}
+		else {
+			speedX = fastSpeedX;
+			speedY = fastSpeedY;
+		}
 	}
 }
