@@ -163,7 +163,7 @@ public class SCR_Enemy : MonoBehaviour {
 	public virtual void SetSpeed(Speed s) {
 		speed = s;
 		
-		if (s == Speed.NORMAL) {
+		if (speed == Speed.NORMAL) {
 			speedX = normalSpeedX;
 			speedY = normalSpeedY;
 		}
