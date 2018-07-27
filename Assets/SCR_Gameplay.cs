@@ -29,6 +29,7 @@ public class SCR_Gameplay : MonoBehaviour {
 
 	public GameObject	venom;
 
+	public GameObject	cvsMainMenu;
 	public GameObject	cvsGameplay;
 	public GameObject	cvsGameOver;
 
@@ -85,7 +86,8 @@ public class SCR_Gameplay : MonoBehaviour {
 		transform.position = new Vector3(transform.position.x, CAMERA_POSITION_READY, transform.position.z);
 		Camera.main.orthographicSize = CAMERA_SIZE_READY;
 
-		cvsGameplay.SetActive(true);
+		cvsMainMenu.SetActive(true);
+		cvsGameplay.SetActive(false);
 		cvsGameOver.SetActive(false);
 		
 		source.clip = sndMainMenu;
@@ -196,8 +198,8 @@ public class SCR_Gameplay : MonoBehaviour {
 
 		if (state == GameState.READY) {
 			if (Input.GetMouseButtonDown(0)) {
-				title.SetActive(false);
-				tapToPlay.SetActive(false);
+				cvsMainMenu.SetActive(false);
+				cvsGameplay.SetActive(true);
 				txtScore.SetActive(true);
 				SpawnWave(1);
 				venom.GetComponent<Animator>().SetTrigger("ultimate");

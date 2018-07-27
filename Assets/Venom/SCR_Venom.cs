@@ -80,7 +80,7 @@ public class SCR_Venom : MonoBehaviour {
 		effect.transform.position = new Vector3(
 			transform.position.x + BREAK_OFFSET_X_SPECIAL,
 			transform.position.y + BREAK_OFFSET_Y_SPECIAL,
-			transform.position.z);
+			effect.transform.position.z);
 	}
 	
 	private void OnShowBreakUltimate() {
@@ -88,7 +88,7 @@ public class SCR_Venom : MonoBehaviour {
 		effect.transform.position = new Vector3(
 			transform.position.x + BREAK_OFFSET_X_ULTIMATE,
 			transform.position.y + BREAK_OFFSET_Y_ULTIMATE,
-			transform.position.z);
+			effect.transform.position.z);
 	}
 
 	public void Attack(float x, float y) {

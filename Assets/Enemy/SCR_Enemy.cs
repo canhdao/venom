@@ -95,7 +95,6 @@ public class SCR_Enemy : MonoBehaviour {
 					speedX = Mathf.Abs(speedX);
 				}
 
-				spriteRenderer.sortingOrder = (int)(SCR_Gameplay.screenHeight * 0.5f - transform.position.y) + 2;
 				if (transform.position.y < -SCR_Gameplay.screenHeight * 0.5f) {
 					OnOutOfScreen();
 				}
