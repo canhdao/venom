@@ -111,8 +111,8 @@ public class SCR_Enemy : MonoBehaviour {
 
 	public virtual void Die() {
 		animator.SetTrigger("die");
-		spriteRenderer.sortingOrder = 1;
 		iTween.FadeTo(gameObject, iTween.Hash("alpha", 0, "time", 0.5f, "delay", 1f, "oncomplete", "AutoDestroy"));
+		transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + 10);
 		state = EnemyState.DIE;
 	}
 

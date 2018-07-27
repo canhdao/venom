@@ -5,12 +5,10 @@ using UnityEngine;
 public class SCR_Venom : MonoBehaviour {
 	public GameObject PFB_BREAK;
 
-	public GameObject upperArmLeft;
-	public GameObject forearmLeft;
+	public GameObject armLeft;
 	public GameObject handLeft;
 
-	public GameObject upperArmRight;
-	public GameObject forearmRight;
+	public GameObject armRight;
 	public GameObject handRight;
 
 	public GameObject tongueStart;
@@ -39,22 +37,18 @@ public class SCR_Venom : MonoBehaviour {
 	private float attackTime;
 
 	void Awake() {
-		upperArmLeft.SetActive(false);
-		forearmLeft.SetActive(false);
-
-		upperArmRight.SetActive(false);
-		forearmRight.SetActive(false);
-
+		armLeft.SetActive(false);
+		armRight.SetActive(false);
 		tongueStart.SetActive(false);
 	}
 
 	// Use this for initialization
 	void Start() {
-		originalVectorLeft = new Vector2(handLeft.transform.position.x - forearmLeft.transform.position.x, handLeft.transform.position.y - forearmLeft.transform.position.y);
-		originalScaleLeft = forearmLeft.transform.localScale;
+		originalVectorLeft = new Vector2(handLeft.transform.position.x - armLeft.transform.position.x, handLeft.transform.position.y - armLeft.transform.position.y);
+		originalScaleLeft = armLeft.transform.localScale;
 
-		originalVectorRight = new Vector2(handRight.transform.position.x - forearmRight.transform.position.x, handRight.transform.position.y - forearmRight.transform.position.y);
-		originalScaleRight = forearmRight.transform.localScale;
+		originalVectorRight = new Vector2(handRight.transform.position.x - armRight.transform.position.x, handRight.transform.position.y - armRight.transform.position.y);
+		originalScaleRight = armRight.transform.localScale;
 
 		originalVectorTongue = new Vector2(tongueEnd.transform.position.x - tongueStart.transform.position.x, tongueEnd.transform.position.y - tongueStart.transform.position.y);
 		originalScaleTongue = tongueStart.transform.localScale;
@@ -92,8 +86,7 @@ public class SCR_Venom : MonoBehaviour {
 	}
 
 	public void Attack(float x, float y) {
-		GameObject forearm = null;
-		GameObject upperArm = null;
+		GameObject arm = null;
 		Vector2 originalVector;
 		Vector3 originalScale;
 
@@ -104,15 +97,13 @@ public class SCR_Venom : MonoBehaviour {
 		
 		if (x < TONGUE_LEFT) {
 			animator.SetBool("attackLeft", true);
-			forearm = forearmLeft;
-			upperArm = upperArmLeft;
+			arm = armLeft;
 			originalVector = originalVectorLeft;
 			originalScale = originalScaleLeft;
 		}
 		else if (x > TONGUE_RIGHT) {
 			animator.SetBool("attackRight", true);
-			forearm = forearmRight;
-			upperArm = upperArmRight;
+			arm = armRight;
 			originalVector = originalVectorRight;
 			originalScale = originalScaleRight;
 		}
@@ -123,20 +114,17 @@ public class SCR_Venom : MonoBehaviour {
 		}
 
 		if (x < TONGUE_LEFT || x > TONGUE_RIGHT) {
-			Vector2 targetVector = new Vector2(x - forearm.transform.position.x, y - forearm.transform.position.y);
+			Vector2 targetVector = new Vector2(x - arm.transform.position.x, y - arm.transform.position.y);
 
 			float angle = Vector2.SignedAngle(originalVector, targetVector);
-			forearm.transform.localEulerAngles = new Vector3(0, 0, angle);
+			arm.transform.localEulerAngles = new Vector3(0, 0, angle);
 
-			forearm.transform.localScale = new Vector3(
+			arm.transform.localScale = new Vector3(
 				originalScale.x,
 				Mathf.Sqrt(targetVector.sqrMagnitude / originalVector.sqrMagnitude) * originalScale.y,
 				originalScale.z);
 
-			upperArm.transform.localEulerAngles = forearm.transform.localEulerAngles;
-			
-			upperArm.SetActive(true);
-			forearm.SetActive(true);
+			arm.SetActive(true);
 		}
 		else {
 			Vector2 targetVector = new Vector2(x - tongueStart.transform.position.x, y - tongueStart.transform.position.y);
@@ -156,12 +144,8 @@ public class SCR_Venom : MonoBehaviour {
 	}
 
 	private void AttackComplete() {
-		forearmLeft.SetActive(false);
-		upperArmLeft.SetActive(false);
-
-		forearmRight.SetActive(false);
-		upperArmRight.SetActive(false);
-
+		armLeft.SetActive(false);
+		armRight.SetActive(false);
 		tongueStart.SetActive(false);
 
 		animator.SetBool("attackLeft", false);

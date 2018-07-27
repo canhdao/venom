@@ -153,6 +153,7 @@ PlayerSettings:
   applicationIdentifier:
     Android: com.funnyhobos.venom
     Standalone: com.funnyhobos.venom
+    iOS: com.funnyhobos.venom
   buildNumber: {}
   AndroidBundleVersionCode: 3
   AndroidMinSdkVersion: 16
