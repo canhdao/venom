@@ -30,8 +30,7 @@ public class SCR_Enemy : MonoBehaviour {
 	public const float BOOST_SPEED_Y_START	= 0.4f;
 	public const float BOOST_SPEED_Y_END	= 0.8f;
 
-	private SpriteRenderer spriteRenderer;
-	private Animator animator;
+	protected Animator animator;
 
 	public EnemyState state = EnemyState.RUN;
 
@@ -52,7 +51,6 @@ public class SCR_Enemy : MonoBehaviour {
 	
 	// Use this for initialization
 	public virtual void Awake() {
-		spriteRenderer = GetComponent<SpriteRenderer>();
 		animator = GetComponent<Animator>();
 
 		float r = Random.Range(0f, 1f);
@@ -106,6 +104,10 @@ public class SCR_Enemy : MonoBehaviour {
 					}
 				}
 			}
+		}
+
+		if (SCR_Gameplay.instance.state == GameState.STOP && state == EnemyState.RUN && animator.enabled) {
+			animator.enabled = false;
 		}
 	}
 

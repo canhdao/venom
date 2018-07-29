@@ -7,6 +7,15 @@ public class SCR_Girl : SCR_Enemy {
 		Destroy(gameObject);
 	}
 
+	public override void Die() {
+		animator.SetTrigger("die");
+		Invoke("AutoDestroy", 3f);
+		transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + 10);
+		state = EnemyState.DIE;
+
+		SCR_Gameplay.instance.ShowSpot(transform.position);
+	}
+
 	public override void AutoDestroy() {
 		base.AutoDestroy();
 		SCR_Gameplay.instance.GameOver();

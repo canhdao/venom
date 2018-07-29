@@ -8,6 +8,7 @@ using GoogleMobileAds.Api;
 public enum GameState {
 	READY,
 	PLAY,
+	STOP,
 	FINISH
 }
 
@@ -22,6 +23,8 @@ public class SCR_Gameplay : MonoBehaviour {
 
 	private const float CAMERA_POSITION_READY	= -4.8f;
 	private const float CAMERA_POSITION_PLAY	= 0;
+
+	private const float OH_NO_OFFSET_Y			= -2;
 
 	public GameObject[]	PFB_ENEMY;
 	public GameObject	PFB_DOG;
@@ -40,6 +43,10 @@ public class SCR_Gameplay : MonoBehaviour {
 
 	public GameObject	title;
 	public GameObject	tapToPlay;
+
+	public GameObject	imgBlack;
+	public GameObject	mskSpot;
+	public GameObject	txtOhNo;
 	
 	public AudioSource	source;
 	
@@ -68,6 +75,12 @@ public class SCR_Gameplay : MonoBehaviour {
 	public int		currentWave;
 	public int		spawnCount;
 	public float	gapTime;
+
+	void Awake() {
+		imgBlack.SetActive(false);
+		mskSpot.SetActive(false);
+		txtOhNo.SetActive(false);
+	}
 
 	// Use this for initialization
 	void Start() {
@@ -233,11 +246,25 @@ public class SCR_Gameplay : MonoBehaviour {
 		cvsGameplay.SetActive(false);
 		cvsGameOver.SetActive(true);
 
+		imgBlack.SetActive(false);
+		mskSpot.SetActive(false);
+		txtOhNo.SetActive(false);
+
 		state = GameState.FINISH;
 
 		if (timeShowAds >= TIME_SHOW_ADS && interstitial.IsLoaded()) {
 			ShowAds();
 		}
+	}
+
+	public void ShowSpot(Vector3 position) {
+		imgBlack.SetActive(true);
+		mskSpot.SetActive(true);
+		txtOhNo.SetActive(true);
+		mskSpot.transform.position = position;
+		txtOhNo.transform.position = new Vector3(position.x, position.y + OH_NO_OFFSET_Y, txtOhNo.transform.position.z);
+
+		state = GameState.STOP;
 	}
 
 	private void ZoomCamera() {
