@@ -18,4 +18,5 @@ public class SCR_Config {
 	public const float RATE_PATTERN_LINE = 20;
 	
 	public const float WAVE_GAP_TIME = 3;
+	public const float TRUCK_SPAWN_GAP_TIME = 5;
 }

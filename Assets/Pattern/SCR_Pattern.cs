@@ -10,6 +10,14 @@ public enum PatternType {
 }
 
 public class SCR_Pattern : MonoBehaviour {
+	public const int ENEMY_SOLDIER_1	= 0;
+	public const int ENEMY_SOLDIER_2	= 1;
+	public const int ENEMY_SOLDIER_3	= 2;
+	public const int ENEMY_SOLDIER_4	= 3;
+	public const int ENEMY_DOG_SOLDIER	= 4;
+	public const int ENEMY_TRUCK		= 5;
+	public const int ENEMY_GIRL			= 6;
+
 	public PatternType type = PatternType.ONE;
 	
 	void Start() {
@@ -58,12 +66,16 @@ public class SCR_Pattern : MonoBehaviour {
 				SpawnEnemy(x, y);
 				SpawnEnemy(x + distance, y + distance);
 				SpawnEnemy(x + 2 * distance, y + 2 * distance);
+				SpawnEnemy(x + 3 * distance, y + 3 * distance);
+				SpawnEnemy(x + 4 * distance, y + 4 * distance);
 			}
 			else {
 				moveType = MoveType.DIAGONAL_RIGHT;
 				SpawnEnemy(x, y);
 				SpawnEnemy(x - distance, y + distance);
 				SpawnEnemy(x - 2 * distance, y + 2 * distance);
+				SpawnEnemy(x - 3 * distance, y + 3 * distance);
+				SpawnEnemy(x - 4 * distance, y + 4 * distance);
 			}
 
 			for (int i = 0; i < transform.childCount; i++) {
@@ -89,37 +101,16 @@ public class SCR_Pattern : MonoBehaviour {
 		int wave = SCR_Gameplay.instance.currentWave - 1;
 		if (wave > SCR_Config.NUMBER_ENEMIES.Length - 1) wave = SCR_Config.NUMBER_ENEMIES.Length - 1;
 		
-		float rateSoldier1		= SCR_Config.RATE_SOLDIER_1[wave];
-		float rateSoldier2		= SCR_Config.RATE_SOLDIER_2[wave];
-		float rateSoldier3		= SCR_Config.RATE_SOLDIER_3[wave];
-		float rateSoldier4		= SCR_Config.RATE_SOLDIER_4[wave];
-		float rateDogSoldier	= SCR_Config.RATE_DOG_SOLDIER[wave];
-		float rateTruck			= SCR_Config.RATE_TRUCK[wave];
-		//float rateGirl			= SCR_Config.RATE_GIRL[wave];
-		
-		float r = Random.Range(0.0f, 100.0f);
-		int choose = 0;
-		
-		if (r < rateSoldier1) {
-			choose = 0;
+		int choose = ChooseEnemy(wave);
+
+		if (SCR_Truck.timeFromLastSpawn < SCR_Config.TRUCK_SPAWN_GAP_TIME) {
+			while (choose == ENEMY_TRUCK) {
+				choose = ChooseEnemy(wave);
+			}
 		}
-		else if (r < rateSoldier1 + rateSoldier2) {
-			choose = 1;
-		}
-		else if (r < rateSoldier1 + rateSoldier2 + rateSoldier3) {
-			choose = 2;
-		}
-		else if (r < rateSoldier1 + rateSoldier2 + rateSoldier3 + rateSoldier4) {
-			choose = 3;
-		}
-		else if (r < rateSoldier1 + rateSoldier2 + rateSoldier3 + rateSoldier4 + rateDogSoldier) {
-			choose = 4;
-		}
-		else if (r < rateSoldier1 + rateSoldier2 + rateSoldier3 + rateSoldier4 + rateDogSoldier + rateTruck) {
-			choose = 5;
-		}
-		else {
-			choose = 6;
+
+		if (choose == ENEMY_TRUCK) {
+			SCR_Truck.timeFromLastSpawn = 0;
 		}
 		
 		GameObject prefab = SCR_Gameplay.instance.PFB_ENEMY[choose];
@@ -142,5 +133,42 @@ public class SCR_Pattern : MonoBehaviour {
 		}
 
 		return enemy;
-	}	
+	}
+
+	private int ChooseEnemy(int wave) {
+		float rateSoldier1		= SCR_Config.RATE_SOLDIER_1[wave];
+		float rateSoldier2		= SCR_Config.RATE_SOLDIER_2[wave];
+		float rateSoldier3		= SCR_Config.RATE_SOLDIER_3[wave];
+		float rateSoldier4		= SCR_Config.RATE_SOLDIER_4[wave];
+		float rateDogSoldier	= SCR_Config.RATE_DOG_SOLDIER[wave];
+		float rateTruck			= SCR_Config.RATE_TRUCK[wave];
+		//float rateGirl			= SCR_Config.RATE_GIRL[wave];
+		
+		float r = Random.Range(0.0f, 100.0f);
+		int choose = ENEMY_SOLDIER_1;
+		
+		if (r < rateSoldier1) {
+			choose = ENEMY_SOLDIER_1;
+		}
+		else if (r < rateSoldier1 + rateSoldier2) {
+			choose = ENEMY_SOLDIER_2;
+		}
+		else if (r < rateSoldier1 + rateSoldier2 + rateSoldier3) {
+			choose = ENEMY_SOLDIER_3;
+		}
+		else if (r < rateSoldier1 + rateSoldier2 + rateSoldier3 + rateSoldier4) {
+			choose = ENEMY_SOLDIER_4;
+		}
+		else if (r < rateSoldier1 + rateSoldier2 + rateSoldier3 + rateSoldier4 + rateDogSoldier) {
+			choose = ENEMY_DOG_SOLDIER;
+		}
+		else if (r < rateSoldier1 + rateSoldier2 + rateSoldier3 + rateSoldier4 + rateDogSoldier + rateTruck) {
+			choose = ENEMY_TRUCK;
+		}
+		else {
+			choose = ENEMY_GIRL;
+		}
+
+		return choose;
+	}
 }

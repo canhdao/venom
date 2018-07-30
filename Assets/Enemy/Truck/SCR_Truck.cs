@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SCR_Truck : SCR_Enemy {
+	public static float timeFromLastSpawn = SCR_Config.TRUCK_SPAWN_GAP_TIME;
+
 	// Use this for initialization
 	public override void Awake() {
 		base.Awake();

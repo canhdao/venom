@@ -211,6 +211,8 @@ public class SCR_Gameplay : MonoBehaviour {
 					SpawnWave(currentWave + 1);
 				}
 			}
+
+			SCR_Truck.timeFromLastSpawn += Time.deltaTime;
 		}
 
 		if (state == GameState.READY) {
