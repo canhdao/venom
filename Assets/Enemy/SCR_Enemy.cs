@@ -115,6 +115,7 @@ public class SCR_Enemy : MonoBehaviour {
 		animator.SetTrigger("die");
 		iTween.FadeTo(gameObject, iTween.Hash("alpha", 0, "time", 0.5f, "delay", 1f, "oncomplete", "AutoDestroy"));
 		transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + 10);
+		PlayDieSound();
 		state = EnemyState.DIE;
 	}
 
@@ -180,5 +181,9 @@ public class SCR_Enemy : MonoBehaviour {
 			speedX = r * fastSpeedX;
 			speedY = fastSpeedY;
 		}
+	}
+	
+	protected virtual void PlayDieSound() {
+		SCR_Gameplay.instance.source.PlayOneShot(SCR_Gameplay.instance.sndHit);
 	}
 }

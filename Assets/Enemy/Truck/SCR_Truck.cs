@@ -49,4 +49,8 @@ public class SCR_Truck : SCR_Enemy {
 	public override float GetSpawnMarginY() {
 		return GetComponent<BoxCollider2D>().size.y * transform.localScale.y;
 	}
+	
+	protected override void PlayDieSound() {
+		SCR_Gameplay.instance.source.PlayOneShot(SCR_Gameplay.instance.sndHitTruck);
+	}
 }

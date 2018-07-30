@@ -1897,7 +1897,11 @@ MonoBehaviour:
   source: {fileID: 2035955540}
   sndMainMenu: {fileID: 8300000, guid: cc512db6347d3fb4880e9c70916f0c9a, type: 3}
   sndGameplay: {fileID: 8300000, guid: a00b4aebb4d2c5642a844c2b2bfe52c5, type: 3}
+  sndUltimate: {fileID: 8300000, guid: 8a3f137023481214aa023f41dddf5822, type: 3}
   sndHit: {fileID: 8300000, guid: 23db114a0e30b4b4a82e777e1e7504c3, type: 3}
+  sndHitGirl: {fileID: 8300000, guid: 29cd56d87efc4634fbcf3d78e6752264, type: 3}
+  sndHitTruck: {fileID: 8300000, guid: c12c1b31f97c4cb4bb1b29b5855db67d, type: 3}
+  sndGameOver: {fileID: 8300000, guid: f7466177f061f404fbdbd889763d7809, type: 3}
   state: 0
   spawningEnemies: 0
   currentWave: 0

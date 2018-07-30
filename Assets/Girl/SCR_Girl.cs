@@ -11,6 +11,7 @@ public class SCR_Girl : SCR_Enemy {
 		animator.SetTrigger("die");
 		Invoke("AutoDestroy", 3f);
 		transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + 10);
+		PlayDieSound();
 		state = EnemyState.DIE;
 
 		SCR_Gameplay.instance.ShowSpot(transform.position);
@@ -19,5 +20,9 @@ public class SCR_Girl : SCR_Enemy {
 	public override void AutoDestroy() {
 		base.AutoDestroy();
 		SCR_Gameplay.instance.GameOver();
+	}
+	
+	protected override void PlayDieSound() {
+		SCR_Gameplay.instance.source.PlayOneShot(SCR_Gameplay.instance.sndHitGirl);
 	}
 }

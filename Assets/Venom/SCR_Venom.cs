@@ -75,6 +75,7 @@ public class SCR_Venom : MonoBehaviour {
 			transform.position.x + BREAK_OFFSET_X_SPECIAL,
 			transform.position.y + BREAK_OFFSET_Y_SPECIAL,
 			effect.transform.position.z);
+		//SCR_Gameplay.instance.source.PlayOneShot(SCR_Gameplay.instance.sndUltimate);
 	}
 	
 	private void OnShowBreakUltimate() {
@@ -83,6 +84,7 @@ public class SCR_Venom : MonoBehaviour {
 			transform.position.x + BREAK_OFFSET_X_ULTIMATE,
 			transform.position.y + BREAK_OFFSET_Y_ULTIMATE,
 			effect.transform.position.z);
+		//SCR_Gameplay.instance.source.PlayOneShot(SCR_Gameplay.instance.sndUltimate);
 	}
 
 	public void Attack(float x, float y) {

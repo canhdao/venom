@@ -52,7 +52,11 @@ public class SCR_Gameplay : MonoBehaviour {
 	
 	public AudioClip	sndMainMenu;
 	public AudioClip	sndGameplay;
+	public AudioClip	sndUltimate;
 	public AudioClip	sndHit;
+	public AudioClip	sndHitGirl;
+	public AudioClip	sndHitTruck;
+	public AudioClip	sndGameOver;
 
 	public static SCR_Gameplay instance;
 
@@ -172,7 +176,6 @@ public class SCR_Gameplay : MonoBehaviour {
 		            	if (scrEnemy.state == EnemyState.RUN) {
 		            		scrEnemy.Die();
 		            		IncreaseScore();
-							source.PlayOneShot(sndHit);
 		            	}
 		            }
 		        }
@@ -180,6 +183,7 @@ public class SCR_Gameplay : MonoBehaviour {
 
 			if (Input.GetMouseButtonDown(1)) {
 				venom.GetComponent<Animator>().SetTrigger("special");
+				source.PlayOneShot(sndUltimate);
 			}
 			
 			if (spawningEnemies) {
@@ -216,6 +220,7 @@ public class SCR_Gameplay : MonoBehaviour {
 				txtScore.SetActive(true);
 				SpawnWave(1);
 				venom.GetComponent<Animator>().SetTrigger("ultimate");
+				source.PlayOneShot(sndUltimate);
 				ZoomCamera();
 				source.clip = sndGameplay;
 				source.Play();
@@ -249,6 +254,9 @@ public class SCR_Gameplay : MonoBehaviour {
 		imgBlack.SetActive(false);
 		mskSpot.SetActive(false);
 		txtOhNo.SetActive(false);
+		
+		source.Stop();
+		source.PlayOneShot(sndGameOver);
 
 		state = GameState.FINISH;
 
