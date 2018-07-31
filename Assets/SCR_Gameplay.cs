@@ -15,9 +15,6 @@ public enum GameState {
 public class SCR_Gameplay : MonoBehaviour {
 	private const float TIME_SHOW_ADS			= 15;
 
-	private const float SPAWN_TIME_MIN			= 1;
-	private const float SPAWN_TIME_MAX			= 2;
-
 	private const float CAMERA_SIZE_READY		= 4.8f;
 	private const float CAMERA_SIZE_PLAY		= 9.6f;
 
@@ -180,12 +177,12 @@ public class SCR_Gameplay : MonoBehaviour {
 		            }
 		        }
 			}
-
+			/*
 			if (Input.GetMouseButtonDown(1)) {
 				venom.GetComponent<Animator>().SetTrigger("special");
 				source.PlayOneShot(sndUltimate);
 			}
-			
+			*/
 			if (spawningEnemies) {
 				spawnTime -= Time.deltaTime;
 				if (spawnTime <= 0) {
@@ -202,7 +199,7 @@ public class SCR_Gameplay : MonoBehaviour {
 					else {
 						SpawnPattern(PatternType.ONE);
 					}
-					spawnTime = Random.Range(SPAWN_TIME_MIN, SPAWN_TIME_MAX);
+					spawnTime = Random.Range(SCR_Config.SPAWN_TIME_MIN, SCR_Config.SPAWN_TIME_MAX);
 				}
 			}
 			else if (currentWave >= 1) {
