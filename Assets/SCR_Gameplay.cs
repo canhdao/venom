@@ -240,12 +240,13 @@ public class SCR_Gameplay : MonoBehaviour {
 
 		if (best < score) {
 			best = score;
+			PlayerPrefs.SetInt("best", best);
 		}
 	}
 
 	public void GameOver() {
-		txtKilled.GetComponent<Text>().text = "KILLED: " + score.ToString();
-		txtBest.GetComponent<Text>().text = "BEST: " + best.ToString();
+		txtKilled.GetComponent<Text>().text = score.ToString();
+		txtBest.GetComponent<Text>().text = best.ToString();
 
 		cvsGameplay.SetActive(false);
 		cvsGameOver.SetActive(true);
